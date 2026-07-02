@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+<robot name="heron" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+  <xacro:arg name="namespace" default="usv_1"/>
+  <xacro:property name="ns" value="$(arg namespace)"/>
+  <xacro:property name="heron_mesh_root" value="file:///home/lu/paper2/core_ws/src/model/heron_USV/heron-melodic-devel/heron_description/meshes"/>
+  <xacro:property name="heron_base_mesh" value="${heron_mesh_root}/heron_base.stl"/>
+  <xacro:property name="heron_collision_mesh" value="${heron_mesh_root}/heron_collision.stl"/>
+  <xacro:property name="heron_left_panel_mesh" value="${heron_mesh_root}/left_panel.stl"/>
+  <xacro:property name="heron_right_panel_mesh" value="${heron_mesh_root}/right_panel.stl"/>
+  <xacro:property name="heron_prop_mesh" value="${heron_mesh_root}/prop.dae"/>
+  
+  <!-- USV properties -->
+  <xacro:property name="mass" value="28.0"/>
+  <!-- Center of gravity adjusted to make it float stably on surface -->
+  <xacro:property name="cog" value="0 0 -0.15"/>
+  <xacro:property name="rho" value="1025"/>
+  
+  <!-- Base Link -->
+  <link name="${ns}/base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${heron_base_mesh}" scale="1 1 1"/>
+      </geometry>
+      <material name="dark_gray">
+        <color rgba="0.2 0.2 0.2 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${heron_collision_mesh}" scale="1 1 1"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass}"/>
+      <origin xyz="${cog}" rpy="0 0 0"/>
+      <!-- Official Heron Repo Note: 
+           The exact CAD inertia is commented out in their base.xacro because it's too small and causes Gazebo instability:
+           <inertia ixx="0.017474" ixy="-0.000013" ixz="-0.000102" iyy="0.017781" iyz="-0.000058" izz="0.033235" />
+           They use 10, 10, 10 instead. We follow their exact implementation. -->
+      <inertia ixx="10" ixy="0" iyy="10" ixz="0" iyz="0" izz="10"/>
+    </inertial>
+  </link>
+  
+  <!-- Left Panel -->
+  <link name="${ns}/left_panel_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${heron_left_panel_mesh}" scale="1 1 1"/>
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.8 0.8 0.0 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.01" ixy="0" iyy="0.01" ixz="0" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+  <joint name="${ns}/left_panel_joint" type="fixed">
+    <origin xyz="0.0 0.34495 0.04959" rpy="0 0 0"/>
+    <parent link="${ns}/base_link"/>
+    <child link="${ns}/left_panel_link"/>
+  </joint>
+
+  <!-- Right Panel -->
+  <link name="${ns}/right_panel_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${heron_right_panel_mesh}" scale="1 1 1"/>
+      </geometry>
+      <material name="yellow">
+        <color rgba="0.8 0.8 0.0 1.0"/>
+      </material>
+    </visual>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.01" ixy="0" iyy="0.01" ixz="0" iyz="0" izz="0.01"/>
+    </inertial>
+  </link>
+  <joint name="${ns}/right_panel_joint" type="fixed">
+    <origin xyz="0.0 -0.34495 0.04959" rpy="0 0 0"/>
+    <parent link="${ns}/base_link"/>
+    <child link="${ns}/right_panel_link"/>
+  </joint>
+
+  <!-- Thrusters (Left and Right) -->
+  <!-- Left Thruster -->
+  <link name="${ns}/thruster_left">
+    <visual>
+      <geometry>
+        <mesh filename="${heron_prop_mesh}" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.001" ixy="0" iyy="0.001" ixz="0" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="${ns}/thruster_left_joint" type="fixed">
+    <origin xyz="-0.53 0.37795 -0.16" rpy="0 0 0"/>
+    <parent link="${ns}/base_link"/>
+    <child link="${ns}/thruster_left"/>
+  </joint>
+
+  <!-- Right Thruster -->
+  <link name="${ns}/thruster_right">
+    <visual>
+      <geometry>
+        <mesh filename="${heron_prop_mesh}" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.001" ixy="0" iyy="0.001" ixz="0" iyz="0" izz="0.001"/>
+    </inertial>
+  </link>
+  <joint name="${ns}/thruster_right_joint" type="fixed">
+    <origin xyz="-0.53 -0.37795 -0.16" rpy="0 0 0"/>
+    <parent link="${ns}/base_link"/>
+    <child link="${ns}/thruster_right"/>
+  </joint>
+
+  <!-- Gazebo Plugins -->
+  <gazebo>
+    <!-- Hydrodynamics -->
+    <plugin filename="gz-sim-hydrodynamics-system" name="gz::sim::systems::Hydrodynamics">
+      <link_name>${ns}/base_link</link_name>
+      <water_density>${rho}</water_density>
+      <xU>-16.44998712</xU>
+      <yV>-15.79776044</yV>
+      <zW>-100.0</zW>
+      <kP>-13.0</kP>
+      <mQ>-13.0</mQ>
+      <nR>-6.0</nR>
+      <xUabsU>-2.942</xUabsU>
+      <yVabsV>-2.7617212</yVabsV>
+      <zWabsW>-10.0</zWabsW>
+      <kPabsP>-5.0</kPabsP>
+      <mQabsQ>-5.0</mQabsQ>
+      <nRabsR>-5.0</nRabsR>
+    </plugin>
+    
+    <!-- Surface Buoyancy (Make it float!) -->
+    <plugin filename="gz-sim-surface-system" name="gz::sim::systems::Surface">
+      <link_name>${ns}/base_link</link_name>
+      <vehicle_length>1.0</vehicle_length>
+      <vehicle_width>0.7</vehicle_width>
+      <hull_radius>0.2</hull_radius>
+      <fluid_level>0.0</fluid_level>
+      <points>
+        <point>0.5 0.35 -0.1</point>
+        <point>0.5 -0.35 -0.1</point>
+        <point>-0.5 0.35 -0.1</point>
+        <point>-0.5 -0.35 -0.1</point>
+      </points>
+    </plugin>
+
+    <!-- Left Thruster -->
+    <plugin filename="gz-sim-thruster-system" name="gz::sim::systems::Thruster">
+      <namespace>${ns}</namespace>
+      <joint_name>${ns}/thruster_left_joint</joint_name>
+      <thrust_coefficient>0.05</thrust_coefficient>
+      <fluid_density>${rho}</fluid_density>
+      <propeller_diameter>0.15</propeller_diameter>
+      <velocity_control>false</velocity_control>
+      <use_angvel_cmd>false</use_angvel_cmd>
+      <max_thrust_cmd>300</max_thrust_cmd>
+      <min_thrust_cmd>-300</min_thrust_cmd>
+    </plugin>
+    
+    <!-- Right Thruster -->
+    <plugin filename="gz-sim-thruster-system" name="gz::sim::systems::Thruster">
+      <namespace>${ns}</namespace>
+      <joint_name>${ns}/thruster_right_joint</joint_name>
+      <thrust_coefficient>0.05</thrust_coefficient>
+      <fluid_density>${rho}</fluid_density>
+      <propeller_diameter>0.15</propeller_diameter>
+      <velocity_control>false</velocity_control>
+      <use_angvel_cmd>false</use_angvel_cmd>
+      <max_thrust_cmd>300</max_thrust_cmd>
+      <min_thrust_cmd>-300</min_thrust_cmd>
+    </plugin>
+
+    <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+      <odom_frame>${ns}/odom</odom_frame>
+      <robot_base_frame>${ns}/base_link</robot_base_frame>
+      <odom_topic>odom</odom_topic>
+      <tf_topic>tf</tf_topic>
+      <dimensions>3</dimensions>
+      <odom_publish_frequency>50</odom_publish_frequency>
+    </plugin>
+  </gazebo>
+
+  <!-- PointCloud Lidar for Avoidance -->
+  <link name="${ns}/lidar_link">
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.001" iyy="0.001" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="${ns}/lidar_joint" type="fixed">
+    <origin xyz="0.3 0 0.2" rpy="0 0 0"/>
+    <parent link="${ns}/base_link"/>
+    <child link="${ns}/lidar_link"/>
+  </joint>
+  
+  <gazebo reference="${ns}/lidar_link">
+    <sensor name="lidar" type="gpu_lidar">
+      <pose>0 0 0 0 0 0</pose>
+      <topic>point_cloud</topic>
+      <update_rate>10</update_rate>
+      <lidar>
+        <scan>
+          <horizontal>
+            <samples>100</samples>
+            <resolution>1</resolution>
+            <min_angle>-1.57</min_angle>
+            <max_angle>1.57</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>1</samples>
+            <resolution>1</resolution>
+            <min_angle>0.0</min_angle>
+            <max_angle>0.0</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.5</min>
+          <max>100.0</max>
+          <resolution>0.01</resolution>
+        </range>
+      </lidar>
+      <always_on>1</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+  
+</robot>

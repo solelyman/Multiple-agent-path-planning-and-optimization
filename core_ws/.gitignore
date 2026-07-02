@@ -1,0 +1,21 @@
+# Build artifacts
+build/
+install/
+log/
+*.o
+*.so
+__pycache__/
+*.pyc
+.acados_*_dbg
+
+# External reference code
+src/DecompUtil/
+src/teb_wrapper/
+
+# Backup / temp CSV files
+*.bak*
+*_backup_*
+*.bak_*
+
+# TEB experiment results (unrelated method)
+results_teb.csv

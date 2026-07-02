@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+  <!-- Import macro files -->
+  <xacro:include filename="$(find model)/urdf/common.urdf.xacro" />
+  <xacro:include filename="$(find model)/sensor/sensor_snippets.xacro"/>
+  <xacro:include filename="$(find model)/urdf/snippets.xacro"/>
+
+  <!-- Properties -->
+  <xacro:property name="mass" value="69.7"/>
+  <xacro:property name="length" value="1.98"/>
+  <xacro:property name="diameter" value="0.23"/>
+  <xacro:property name="radius" value="${diameter*0.5}"/>
+  <xacro:property name="volume" value="0.06799987704121499"/>
+  <xacro:property name="cob" value="0 0 0.06"/>
+  <xacro:property name="rho" value="1027.0"/>
+
+  <xacro:property name="area" value="0.04155"/>
+  <xacro:property name="length" value="1.98"/>
+
+  <xacro:property name="visual_mesh_file" value="file://$(find model)/mesh/eca_a9.dae"/>
+  <xacro:property name="collision_mesh_file" value="file://$(find model)/mesh/eca_a9.stl"/>
+  <xacro:property name="prop_mesh_file" value="file://$(find model)/mesh/eca_a9_propeller.dae"/>
+  <xacro:property name="fin_mesh_file" value="file://$(find model)/mesh/eca_a9_fin.dae"/>
+
+  <xacro:macro name="eca_a9_base" params="namespace debug inertial_reference_frame">
+    <link name="${namespace}/base_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${visual_mesh_file}" scale="1 1 1" />
+        </geometry>
+      </visual>
+
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="${visual_mesh_file}" scale="1 1 1" />
+        </geometry>
+      </collision>
+
+      <inertial>
+        <mass value="${mass}" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.6" ixy="0" ixz="0"
+                 iyy="30.0" iyz="0"
+                 izz="35.0" />
+      </inertial>
+    </link>
+
+    <!-- Instantiate Fins -->
+    <xacro:fin_macro namespace="${namespace}" fin_id="0">
+      <origin xyz="-0.70777 -0.07876 0.078586" rpy="0.7904 -0.0998 -0.1003" />
+    </xacro:fin_macro>
+    <xacro:fin_macro namespace="${namespace}" fin_id="1">
+      <origin xyz="-0.70777 -0.07876 -0.078586" rpy="2.3512 0.0998 -0.1003" />
+    </xacro:fin_macro>
+    <xacro:fin_macro namespace="${namespace}" fin_id="2">
+      <origin xyz="-0.70777 0.07876 -0.078586" rpy="-2.3512 0.0998 0.1003" />
+    </xacro:fin_macro>
+    <xacro:fin_macro namespace="${namespace}" fin_id="3">
+      <origin xyz="-0.70777 0.07876 0.078586" rpy="-0.7904 -0.0998 0.1003" />
+    </xacro:fin_macro>
+
+    <xacro:thruster_module_first_order_basic_fcn_macro
+      namespace="${namespace}"
+      thruster_id="0"
+      mesh_filename="${prop_mesh_file}"
+      dyn_time_constant="0.1"
+      rotor_constant="0.000049">
+      <origin xyz="-0.9676 0 0" rpy="0 0 ${pi}" />
+    </xacro:thruster_module_first_order_basic_fcn_macro>
+
+    <!-- Battery Unit -->
+    <xacro:basic_linear_battery_macro
+      namespace="${namespace}"
+      parent_link="${namespace}/base_link"
+      prefix=""
+      open_circuit_voltage_constant_coef="3.7"
+      open_circuit_voltage_linear_coef="-3.1424"
+      initial_charge="1.1665"
+      capacity="0.5"
+      resistance="0.002"
+      smooth_current_tau="1.9499"
+      voltage="4.2"
+      update_rate="2.0"/>
+
+    <xacro:include filename="$(find model)/urdf/sensor.xacro"/>
+  </xacro:macro>
+</robot>

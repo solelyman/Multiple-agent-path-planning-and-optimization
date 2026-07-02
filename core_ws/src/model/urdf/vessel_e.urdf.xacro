@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<robot name="vessel_e" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:arg name="namespace" default="vessel_e"/>
+  <xacro:property name="ns" value="$(arg namespace)"/>
+  <xacro:property name="mesh_path" value="file:///home/lu/paper2/core_ws/src/model/models/vessel_e/meshes/Boat05.dae"/>
+  <xacro:property name="tex_path" value="file:///home/lu/paper2/core_ws/src/model/models/vessel_e/materials/textures"/>
+
+  <link name="${ns}/base_link">
+    <visual>
+      <origin rpy="0 0 -1.5708" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}" scale="0.25 0.25 0.25"/>
+      </geometry>
+      <material name="boat5_albedo">
+        <texture filename="${tex_path}/Boat05_Albedo.jpg"/>
+      </material>
+    </visual>
+    <collision>
+      <origin rpy="0 0 -1.5708" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}" scale="0.25 0.25 0.25"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="1500.0"/>
+      <origin xyz="0 0 -0.1" rpy="0 0 0"/>
+      <inertia ixx="3625" ixy="0" iyy="25000" ixz="0" iyz="0" izz="27625"/>
+    </inertial>
+  </link>
+
+  <gazebo reference="${ns}/base_link">
+    <material>Gazebo/Grey</material>
+  </gazebo>
+</robot>

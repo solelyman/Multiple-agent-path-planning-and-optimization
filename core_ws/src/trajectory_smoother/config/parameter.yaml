@@ -1,0 +1,82 @@
+/**:
+  ros__parameters:
+    target: [135.0, 30.0, 0.0]
+    formation_coupling_gain: 0.15
+    comm_delay_sec: 0.0
+    avoidance_decision_hold_sec: 3.5
+    decision_settle_sec: 0.25
+    max_game_rounds: 3
+    formation_path_points: 90
+    route_lock_repeat_count: 2
+    candidate_freeze_sec: 0.8
+    danger_distance: 55.0
+    stop_radius: 2.0
+    safety_buffer_radius: 2.0
+    static_obstacle_safety_margin: 3.0
+    shared_obstacle_distance_margin: 8.0
+    shared_obstacle_front_margin: 9.0
+    shared_obstacle_z_margin: 30.0
+    obstacle_priority_distance: 35.0
+    obstacle_critical_clearance: 8.0
+    neighbor_progress_margin: 6.0
+    avoidance_entry_count: 2
+    avoidance_exit_count: 5
+    neighbor_discussion_distance: 60.0
+    emergency_lock_margin: 18.0
+    local_avoid_trigger_margin: 25.0
+    obstacle_trigger_margin: 25.0
+    usv_perception_radius: 55.0
+    usv_collision_radius: 2.0
+    vessel_safety_margin: 2.0
+    spatiotemporal_horizon_sec: 24.0
+    spatiotemporal_soft_margin: 4.0
+    relative_closing_speed_threshold: 0.15
+    min_pairwise_ttc_sec: 1.0
+    usv_non_neighbor_colregs_gain: 300.0
+    vessel_nominal_speed: 0.95
+    vessel_turn_rate_limit: 0.38
+    vessel_heading_kp: 1.4
+    vessel_heading_deadband_deg: 4.0
+    vessel_path_lookahead: 10.0
+    vessel_path_lane_half_width: 7.0
+    vessel_path_reacquire_gain: 0.18
+    vessel_collision_horizon_sec: 22.0
+    vessel_collision_buffer: 2.0
+    vessel_emergency_brake_distance: 5.0
+    vessel_avoidance_offset: 10.0
+    vessel_safe_clearance_margin: 2.5
+    vessel_goal_tolerance: 2.0
+    dynamic_obstacle_topics: ["/vessel_e1/odom", "/vessel_e2/odom", "/vessel_e3/odom", "/vessel_f1/odom", "/vessel_f2/odom", "/vessel_f3/odom"]
+    dynamic_obstacle_names: ["vessel_e1", "vessel_e2", "vessel_e3", "vessel_f1", "vessel_f2", "vessel_f3"]
+    dynamic_obstacle_radii: [0.85, 0.85, 0.85, 2.70, 2.70, 2.70]
+    dynamic_obstacle_timeout_sec: 0.5
+    static_obstacle_x: [30.0, 48.0, 65.0, 78.0, 92.0, 108.0, 120.0, 55.0, 85.0, 100.0]
+    static_obstacle_y: [18.0, -10.0, 8.0, 22.0, -6.0, 14.0, -16.0, 34.0, -18.0, 32.0]
+    static_obstacle_radii: [5.0, 4.5, 5.5, 4.0, 5.0, 4.5, 4.0, 5.0, 4.5, 4.5]
+    perception_publish_rate: 10.0
+    planner_inflation_radius: 2.0
+    collision_penalty: 100000.0
+    colregs_penalty: 220.0
+    consistency_penalty: 40.0
+    path_switch_penalty: 50.0
+    mode_switch_hysteresis: 18.0
+    single_path_yield_penalty: 50000.0
+    soft_conflict_gain: 45.0
+    path_sample_count: 80
+    head_on_heading_tol_deg: 35.0
+    head_on_bearing_tol_deg: 25.0
+    overtaking_heading_tol_deg: 30.0
+    overtaking_bearing_deg: 112.5
+    crossing_progress_margin: 0.05
+    usv_1_offset: [-6.0, -6.0, 0.0]
+    usv_2_offset: [-6.0, 6.0, 0.0]
+    usv_3_offset: [6.0, -6.0, 0.0]
+    usv_4_offset: [6.0, 6.0, 0.0]
+    usv_1_neighbors: [2, 3]
+    usv_2_neighbors: [1, 4]
+    usv_3_neighbors: [1, 4]
+    usv_4_neighbors: [2, 3]
+    comm_radius: 60.0
+    reference_path_width: 90.0
+    local_goal_distance_scale: 2.5
+    min_local_goal_distance: 35.0

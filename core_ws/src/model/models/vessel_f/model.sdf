@@ -1,0 +1,48 @@
+<?xml version='1.0' ?>
+<sdf version="1.6">
+  <model name="vessel_f">
+    <static>false</static>
+    <link name="link">
+      <enable_wind>true</enable_wind>
+      <inertial>
+        <mass>1500.0</mass>
+        <inertia>
+          <ixx>3625</ixx>
+          <ixy>0.0</ixy>
+          <ixz>0.0</ixz>
+          <iyy>25000</iyy>
+          <iyz>0.0</iyz>
+          <izz>27625</izz>
+        </inertia>
+      </inertial>
+      <visual name="visual">
+        <pose>0 0 0 1.5708 0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/Boat06.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <diffuse>1.0 1.0 1.0</diffuse>
+          <specular>1.0 1.0 1.0</specular>
+          <pbr>
+            <metal>
+              <albedo_map>materials/textures/Boat06_Albedo.jpg</albedo_map>
+              <normal_map>materials/textures/Boat06_Normal.jpg</normal_map>
+              <roughness_map>materials/textures/Boat06_Roughness.jpg</roughness_map>
+              <metalness_map>materials/textures/Boat06_Metalness.png</metalness_map>
+            </metal>
+          </pbr>
+        </material>
+      </visual>
+      <collision name="collision">
+        <pose>0 0 0 1.5708 0 1.5708</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/Boat06.dae</uri>
+          </mesh>
+        </geometry>
+      </collision>
+    </link>
+  </model>
+</sdf>

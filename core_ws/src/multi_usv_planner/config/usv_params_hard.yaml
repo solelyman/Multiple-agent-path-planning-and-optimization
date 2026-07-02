@@ -1,0 +1,73 @@
+/**:
+  ros__parameters:
+    agent_id: 1
+    neighbors: [2, 3, 4]
+    use_direct_cmd: false
+    control_mode: los
+
+    goal:
+      x: 62.0
+      y: 12.0
+
+    static_obstacles_x: [7.0, 15.0, 23.0, 31.0]
+    static_obstacles_y: [5.8, -3.8, 5.1, -2.9]
+    static_obstacles_r: [1.5, 1.7, 1.5, 1.4]
+
+    mpc:
+      N: 10
+      dt: 0.4
+      max_vel: 1.6
+      max_omega: 1.57
+      max_acc: 1.0
+      desired_speed: 1.25
+      max_iter: 5
+      weight_goal: 8.0
+      weight_path: 60.0
+      weight_obstacle: 50.0
+      weight_smooth: 1.0
+      weight_speed: 7.0
+      weight_guidance: 50.0
+      guidance_margin: 0.8
+      weight_progress: 12.0
+      weight_backtrack: 48.0
+      min_progress_step: 0.15
+      weight_terminal_angle: 14.0
+      weight_terminal_contouring: 3.5
+      weight_seed_alignment: 4.0
+      weight_neighbor: 25.0
+      obstacle_clearance: 3.0
+      dynamic_obstacle_growth: 0.25
+      acados_weight_acc: 0.25
+      acados_weight_angvel: 0.50
+      acados_weight_velocity: 0.30
+      acados_weight_contour: 0.05
+      acados_weight_lag: 0.10
+      acados_weight_terminal_angle: 100.0
+      acados_weight_terminal_contouring: 10.0
+      acados_max_obstacles: 4
+
+    neighbor:
+      k: 2
+      prediction_window: 5.0
+      danger_distance: 9.0
+
+    controller:
+      m11: 28.0
+      m22: 28.0
+      Izz: 10.0
+      d_u: -16.45
+      d_r: -6.0
+      lookahead_h: 8.0
+      k_x: 2.0
+      k_u: 5.0
+      k_psi: 1.0
+      k_y: 0.5
+      k_r: 5.0
+      max_u: 2.0
+      max_r: 1.0
+      filter_omega_n: 2.2
+      filter_zeta: 0.85
+      stop_radius: 5.0
+
+    pass_x_threshold: 90.0
+    colregs_enabled: false

@@ -1,0 +1,123 @@
+Panels:
+  - Class: rviz_common/Displays
+    Name: Displays
+  - Class: rviz_common/Views
+    Name: Views
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Class: rviz_default_plugins/Grid
+      Name: Grid
+      Enabled: true
+      Alpha: 0.25
+      Cell Size: 2
+      Plane: XY
+      Plane Cell Count: 120
+      Color: 200; 200; 200
+      Reference Frame: <Fixed Frame>
+    - Class: rviz_default_plugins/MarkerArray
+      Name: DemoScene
+      Enabled: true
+      Topic:
+        Value: /demo/scene_markers
+    - Class: rviz_default_plugins/RobotModel
+      Name: Heron_USV_1
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_1/robot_description
+      TF Prefix: ""
+      Visual Enabled: true
+      Collision Enabled: false
+    - Class: rviz_default_plugins/RobotModel
+      Name: Heron_USV_2
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_2/robot_description
+      TF Prefix: ""
+      Visual Enabled: true
+      Collision Enabled: false
+    - Class: rviz_default_plugins/RobotModel
+      Name: Heron_USV_3
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_3/robot_description
+      TF Prefix: ""
+      Visual Enabled: true
+      Collision Enabled: false
+    - Class: rviz_default_plugins/RobotModel
+      Name: Heron_USV_4
+      Enabled: true
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_4/robot_description
+      TF Prefix: ""
+      Visual Enabled: true
+      Collision Enabled: false
+    - Class: rviz_default_plugins/Path
+      Name: USV_1_Path
+      Enabled: true
+      Color: 31; 119; 180
+      Line Style: Lines
+      Line Width: 0.08
+      Topic:
+        Value: /demo/agent_1/path
+    - Class: rviz_default_plugins/Path
+      Name: USV_2_Path
+      Enabled: true
+      Color: 44; 160; 44
+      Line Style: Lines
+      Line Width: 0.08
+      Topic:
+        Value: /demo/agent_2/path
+    - Class: rviz_default_plugins/Path
+      Name: USV_3_Path
+      Enabled: true
+      Color: 214; 39; 40
+      Line Style: Lines
+      Line Width: 0.08
+      Topic:
+        Value: /demo/agent_3/path
+    - Class: rviz_default_plugins/Path
+      Name: USV_4_Path
+      Enabled: true
+      Color: 148; 103; 189
+      Line Style: Lines
+      Line Width: 0.08
+      Topic:
+        Value: /demo/agent_4/path
+  Enabled: true
+  Global Options:
+    Background Color: 248; 248; 248
+    Fixed Frame: world
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 118
+      Focal Point:
+        X: 50
+        Y: -2
+        Z: 0.3
+      Name: Current View
+      Near Clip Distance: 0.01
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 0.62
+      Pitch: 0.82
+Window Geometry:
+  Height: 1000
+  Width: 1600

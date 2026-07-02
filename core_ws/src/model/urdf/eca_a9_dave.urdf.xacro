@@ -1,0 +1,307 @@
+<?xml version="1.0"?>
+<robot name="eca_a9" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:arg name="namespace" default="eca_a9"/>
+  <xacro:property name="namespace" value="$(arg namespace)"/>
+  <xacro:property name="mesh_path" value="file://$(find model)/mesh"/>
+  <xacro:property name="mass" value="100.8"/>
+  <xacro:property name="volume" value="0.0985"/>
+  <xacro:property name="cob" value="0 0 0.06"/>
+  <xacro:property name="rho" value="1025.0"/>
+
+  <link name="base_link">
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <geometry>
+        <mesh filename="${mesh_path}/eca_a9.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 1.57079632679 0"/>
+      <geometry>
+        <cylinder length="2.35" radius="0.1153"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="${mass}"/>
+      <origin xyz="0 0 -0.02"/>
+      <inertia ixx="1.0" ixy="0" ixz="0" iyy="48.0" iyz="0" izz="48.0"/>
+    </inertial>
+  </link>
+
+  <link name="thruster_link">
+    <visual>
+      <geometry>
+        <mesh filename="${mesh_path}/eca_a9_propeller.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+
+  <joint name="thruster_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="thruster_link"/>
+    <origin xyz="-1.0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+  </joint>
+
+  <link name="fin0_link">
+    <visual>
+      <geometry>
+        <mesh filename="${mesh_path}/eca_a9_fin.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="fin0_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="fin0_link"/>
+    <origin xyz="-0.70777 -0.07876 0.078586" rpy="0.7904 -0.0998 -0.1003" />
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="5"/>
+  </joint>
+
+  <link name="fin1_link">
+    <visual>
+      <geometry>
+        <mesh filename="${mesh_path}/eca_a9_fin.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="fin1_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="fin1_link"/>
+    <origin xyz="-0.70777 -0.07876 -0.078586" rpy="2.3512 0.0998 -0.1003" />
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="5"/>
+  </joint>
+
+  <link name="fin2_link">
+    <visual>
+      <geometry>
+        <mesh filename="${mesh_path}/eca_a9_fin.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="fin2_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="fin2_link"/>
+    <origin xyz="-0.70777 0.07876 -0.078586" rpy="-2.3512 0.0998 0.1003" />
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="5"/>
+  </joint>
+
+  <link name="fin3_link">
+    <visual>
+      <geometry>
+        <mesh filename="${mesh_path}/eca_a9_fin.dae" scale="1 1 1"/>
+      </geometry>
+    </visual>
+    <inertial>
+      <mass value="0.001"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.0001" iyz="0" izz="0.0001"/>
+    </inertial>
+  </link>
+  <joint name="fin3_joint" type="revolute">
+    <parent link="base_link"/>
+    <child link="fin3_link"/>
+    <origin xyz="-0.70777 0.07876 0.078586" rpy="-0.7904 -0.0998 0.1003" />
+    <axis xyz="0 0 1"/>
+    <limit lower="-1.57" upper="1.57" effort="50" velocity="5"/>
+  </joint>
+
+  <gazebo reference="base_link">
+    <self_collide>false</self_collide>
+    <buoyancy>
+      <volume>${volume}</volume>
+      <center_of_buoyancy>${cob}</center_of_buoyancy>
+      <fluid_density>${rho}</fluid_density>
+    </buoyancy>
+    
+    <!-- 新增：挂载一个 3D 激光雷达(模拟多波束声纳)，用于输出点云检测障碍物 -->
+    <sensor name='front_sonar' type='gpu_lidar'>
+      <pose>1.0 0 0 0 0 0</pose> <!-- 安装在潜艇头部 -->
+      <topic>${namespace}/sonar_pointcloud</topic>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>100</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.785398</min_angle> <!-- 左右各 45 度 -->
+            <max_angle>0.785398</max_angle>
+          </horizontal>
+          <vertical>
+            <samples>50</samples>
+            <resolution>1</resolution>
+            <min_angle>-0.349066</min_angle> <!-- 上下各 20 度 -->
+            <max_angle>0.349066</max_angle>
+          </vertical>
+        </scan>
+        <range>
+          <min>0.5</min>
+          <max>100.0</max> <!-- 探测距离 100 米 -->
+          <resolution>0.01</resolution>
+        </range>
+      </ray>
+      <always_on>1</always_on>
+      <visualize>true</visualize>
+    </sensor>
+  </gazebo>
+
+  <gazebo>
+    <plugin
+      filename="gz-sim-hydrodynamics-system"
+      name="gz::sim::systems::Hydrodynamics">
+      <link_name>base_link</link_name>
+      <water_density>${rho}</water_density>
+      <xDotU>0</xDotU>
+      <yDotV>0</yDotV>
+      <zDotW>0</zDotW>
+      <kDotP>0</kDotP>
+      <mDotQ>0</mDotQ>
+      <nDotR>0</nDotR>
+      <xU>-8</xU>
+      <yV>-162</yV>
+      <zW>-108</zW>
+      <kP>-20</kP>
+      <mQ>-50</mQ>
+      <nR>-50</nR>
+      <xUabsU>-5</xUabsU>
+      <yVabsV>-100</yVabsV>
+      <zWabsW>-100</zWabsW>
+      <kPabsP>-10</kPabsP>
+      <mQabsQ>-50</mQabsQ>
+      <nRabsR>-50</nRabsR>
+      <flow_velocity_topic>ocean_current</flow_velocity_topic>
+    </plugin>
+
+    <plugin filename="gz-sim-thruster-system" name="gz::sim::systems::Thruster">
+      <namespace>${namespace}</namespace>
+      <joint_name>thruster_joint</joint_name>
+      <thrust_coefficient>0.002</thrust_coefficient>
+      <fluid_density>${rho}</fluid_density>
+      <propeller_diameter>0.1</propeller_diameter>
+      <velocity_control>false</velocity_control>
+      <use_angvel_cmd>false</use_angvel_cmd>
+      <max_thrust_cmd>3000</max_thrust_cmd>
+      <min_thrust_cmd>-3000</min_thrust_cmd>
+    </plugin>
+
+    <plugin filename="gz-sim-odometry-publisher-system" name="gz::sim::systems::OdometryPublisher">
+      <dimensions>3</dimensions>
+      <odom_frame>${namespace}/odom</odom_frame>
+      <robot_base_frame>${namespace}/base_link</robot_base_frame>
+      <odom_publish_frequency>50</odom_publish_frequency>
+    </plugin>
+
+    <plugin filename="gz-sim-joint-state-publisher-system" name="gz::sim::systems::JointStatePublisher"/>
+
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>fin0_joint</joint_name>
+      <topic>/model/${namespace}/joint/fin0_joint/cmd_pos</topic>
+      <p_gain>200.0</p_gain>
+      <i_gain>0.1</i_gain>
+      <d_gain>0.0</d_gain>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>fin1_joint</joint_name>
+      <topic>/model/${namespace}/joint/fin1_joint/cmd_pos</topic>
+      <p_gain>200.0</p_gain>
+      <i_gain>0.1</i_gain>
+      <d_gain>0.0</d_gain>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>fin2_joint</joint_name>
+      <topic>/model/${namespace}/joint/fin2_joint/cmd_pos</topic>
+      <p_gain>200.0</p_gain>
+      <i_gain>0.1</i_gain>
+      <d_gain>0.0</d_gain>
+    </plugin>
+    <plugin filename="gz-sim-joint-position-controller-system" name="gz::sim::systems::JointPositionController">
+      <joint_name>fin3_joint</joint_name>
+      <topic>/model/${namespace}/joint/fin3_joint/cmd_pos</topic>
+      <p_gain>200.0</p_gain>
+      <i_gain>0.1</i_gain>
+      <d_gain>0.0</d_gain>
+    </plugin>
+
+    <!-- Lift-Drag Plugins for Fins -->
+    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0.0</a0>
+      <cla>5.0</cla>
+      <cda>0.1</cda>
+      <cma>0.0</cma>
+      <cp>0 0 0</cp>
+      <area>0.05</area>
+      <air_density>1025.0</air_density>
+      <forward>1 0 0</forward>
+      <upward>0 1 0</upward>
+      <alpha_stall>1.5</alpha_stall>
+      <link_name>fin0_link</link_name>
+    </plugin>
+    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0.0</a0>
+      <cla>5.0</cla>
+      <cda>0.1</cda>
+      <cma>0.0</cma>
+      <cp>0 0 0</cp>
+      <area>0.02</area>
+      <air_density>1025.0</air_density>
+      <forward>1 0 0</forward>
+      <upward>0 1 0</upward>
+      <alpha_stall>1.5</alpha_stall>
+      <link_name>fin1_link</link_name>
+    </plugin>
+    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0.0</a0>
+      <cla>5.0</cla>
+      <cda>0.1</cda>
+      <cma>0.0</cma>
+      <cp>0 0 0</cp>
+      <area>0.02</area>
+      <air_density>1025.0</air_density>
+      <forward>1 0 0</forward>
+      <upward>0 1 0</upward>
+      <alpha_stall>1.5</alpha_stall>
+      <link_name>fin2_link</link_name>
+    </plugin>
+    <plugin filename="gz-sim-lift-drag-system" name="gz::sim::systems::LiftDrag">
+      <a0>0.0</a0>
+      <cla>5.0</cla>
+      <cda>0.1</cda>
+      <cma>0.0</cma>
+      <cp>0 0 0</cp>
+      <area>0.02</area>
+      <air_density>1025.0</air_density>
+      <forward>1 0 0</forward>
+      <upward>0 1 0</upward>
+      <alpha_stall>1.5</alpha_stall>
+      <link_name>fin3_link</link_name>
+    </plugin>
+  </gazebo>
+  <!-- Uncomment the line below to include various sensors-->
+  <!-- like DVL, Camera, IMU, Pressure, and Sonar from -->
+  <!-- the sensor_snippets.xacro file.-->
+  <!-- <xacro:include filename="$(find model)/sensor/sensor_snippets.xacro"/> -->
+
+</robot>

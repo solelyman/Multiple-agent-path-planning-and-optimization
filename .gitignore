@@ -1,0 +1,84 @@
+# Build artifacts
+build/
+install/
+log/
+*.o
+*.so
+__pycache__/
+*.pyc
+.acados_*_dbg
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python
+*.egg-info/
+*.eggs/
+.env/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# ROS 2 / colcon
+colcon_*_*
+
+# Temporary experiment files
+trial_done_*.flag
+results_multi_usv*.csv
+results_experiment_summary.csv
+debug-*.md
+
+# Screen recordings & large media
+*.webm
+*.mp4
+palette.png
+*.gif
+!core_ws/src/multi_usv_planner/display.gif
+
+# Backup files
+*.bak*
+*_backup_*
+*.bak_*
+
+# External reference code (not part of the project)
+core_ws/src/guidance_planner/
+core_ws/src/model/heron_USV/heron-melodic-devel/
+single/
+experiments_v2/
+mpc_planner-main/
+teb_local_planner-noetic-devel/
+core_ws_decomp/
+
+# Latex build artifacts
+latex/*.aux
+latex/*.bbl
+latex/*.blg
+latex/*.log
+latex/*.out
+latex/*.synctex.gz
+latex/*.thm
+latex/~$*
+
+# Learn directory (personal notes)
+learn/
+
+# Tarballs
+*.tar.gz
+*.tar
+
+# Skills
+.trae/
+skills/
+
+# Output figures (regeneratable)
+output/
+results/

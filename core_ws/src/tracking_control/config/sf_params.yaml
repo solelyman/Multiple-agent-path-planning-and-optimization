@@ -1,0 +1,31 @@
+/**:
+  ros__parameters:
+    vehicle_model:  
+      mass_11: 28.0
+      mass_22: 28.0
+      inertia_zz: 10.0
+      damping_11: -16.45   
+      damping_66: -6.0  
+
+    dynamics_limits:
+      max_thrust: 300.0
+      max_torque: 80.0
+      max_surge_speed: 1.9
+      max_yaw_rate: 0.45
+
+    controller_gains:
+      lookahead_h: 10.0
+      k_x: 1.2   
+      k_u: 3.0   
+      k_psi: 0.75
+      k_r: 3.0
+      stop_radius: 2.0
+
+    filter:
+      omega_n: 1.4
+      zeta_n: 0.9
+
+    output:
+      mode: thrust
+      cmd_vel_linear_scale: 1.0
+      cmd_vel_angular_scale: 1.0
