@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![ROS 2](https://img.shields.io/badge/ROS_2-Jazzy-blue)
 ![C++](https://img.shields.io/badge/C++-17-00599C?logo=cplusplus)
 ![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python)
@@ -186,7 +186,7 @@ These projects and prior works have been instrumental in advancing our research,
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache 2.0 License — see the [LICENSE](LICENSE) file for details.
 
 ## Citing
 
