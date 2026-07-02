@@ -1,4 +1,4 @@
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
 ![ROS 2](https://img.shields.io/badge/ROS_2-Jazzy-blue)
 ![C++](https://img.shields.io/badge/C++-17-00599C?logo=cplusplus)
 ![Python](https://img.shields.io/badge/Python-3-3776AB?logo=python)
@@ -193,10 +193,10 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 If you find this work useful for your research, please consider citing:
 
 ```
-@misc{multi_usv_planner2025,
+@misc{multi_usv_planner2026,
   author = {Lu},
   title = {Multi-USV COLREGs Planner: Topology-Driven Cooperative Navigation for Unmanned Surface Vehicles},
-  year = {2025},
+  year = {2026},
   publisher = {GitHub},
   url = {https://github.com/solelyman/Multiple-agent-path-planning-and-optimization}
 }
