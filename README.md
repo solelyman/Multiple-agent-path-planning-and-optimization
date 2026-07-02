@@ -38,26 +38,45 @@ A **multi-USV cooperative collision avoidance planner** integrating contouring M
 
 ## System Architecture
 
-```
-┌─────────────────────────────────────────────────────────┐
-│                     USV Planner Node                      │
-│  ┌──────────┐  ┌────────────┐  ┌──────────────────────┐ │
-│  │ V-PRM    │  │ Contouring │  │ COLREGs Engine       │ │
-│  │ Topology │─▶│ MPC        │─▶│ (speed-scaling &     │ │
-│  │ Selector │  │ (acados)   │  │  rule classification)│ │
-│  └──────────┘  └────────────┘  └──────────────────────┘ │
-│       │              │                     │            │
-│       ▼              ▼                     ▼            │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │           Constraint Builder                      │   │
-│  │  (DecompUtil corridors + ellipsoids + halfspaces)  │   │
-│  └──────────────────────────────────────────────────┘   │
-│       │                                                  │
-│       ▼                                                  │
-│  ┌──────────────────────────────────────────────────┐   │
-│  │           ILOS Trajectory Controller              │   │
-│  └──────────────────────────────────────────────────┘   │
-└─────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TB
+    subgraph Planning["Planning Layer"]
+        A[V-PRM Topology Planner]
+        B[Candidate Path Set]
+        C[Topology Re-ranking]
+    end
+
+    subgraph Optimization["Optimization Layer"]
+        D[Contouring MPC]
+        E[COLREGs Engine]
+        F[Constraint Builder]
+    end
+
+    subgraph Control["Control Layer"]
+        G[Trajectory Output]
+        H[ILOS Tracking Controller]
+        I[USV Command Execution]
+    end
+
+    subgraph Environment["Environment Inputs"]
+        J[Static Obstacles]
+        K[Dynamic Obstacles]
+        L[Neighbor Vessel States]
+    end
+
+    A --> B --> C --> D
+    E --> D
+    F --> D
+    J --> F
+    K --> F
+    L --> E
+    L --> F
+    D --> G --> H --> I
+
+    style Planning fill:#F8FBFF,stroke:#4A90E2,stroke-width:1.5px
+    style Optimization fill:#FFF8F0,stroke:#F5A623,stroke-width:1.5px
+    style Control fill:#F3FFF6,stroke:#34A853,stroke-width:1.5px
+    style Environment fill:#FFF5F8,stroke:#D81B60,stroke-width:1.5px
 ```
 
 ## Installation
