@@ -159,9 +159,11 @@ We would like to express our sincere gratitude to the following projects and ind
 
 2. **[teb_local_planner](https://github.com/rst-tu-dortmund/teb_local_planner)** by C. Rösmann et al. (TU Dortmund) — The Timed-Elastic-Band approach for local trajectory optimization informed our understanding of real-time trajectory deformation in dynamic environments. The clear separation between trajectory optimization and constraint formulation in TEB provided useful design patterns.
 
-3. **ClearPath Heron USV Model** — The Unmanned Surface Vehicle dynamics and simulation setup were adapted from the [ClearPath Heron](https://www.clearpathrobotics.com/assets/guides/melodic/heron/simulation.html) platform. Their open-source USV model and simulation framework provided a solid foundation for our vessel dynamics.
+3. **[A-physical-simulator-for-ECA-A9](https://github.com/solelyman/A-physical-simulator-for-ECA-A9)** — The controller-side modifications and parts of the physical simulation workflow in this repository were developed on top of the author's earlier ECA-A9 simulator work. That first simulator served as the practical starting point for the controller adaptation used here.
 
-These projects have been instrumental in advancing our research, and we encourage users to explore their work for further insights.
+4. **ClearPath Heron USV Model** — The Unmanned Surface Vehicle dynamics and simulation setup were adapted from the [ClearPath Heron](https://www.clearpathrobotics.com/assets/guides/melodic/heron/simulation.html) platform. Their open-source USV model and simulation framework provided a solid foundation for our vessel dynamics.
+
+These projects and prior works have been instrumental in advancing our research, and we encourage users to explore them for further insights.
 
 ## License
 
