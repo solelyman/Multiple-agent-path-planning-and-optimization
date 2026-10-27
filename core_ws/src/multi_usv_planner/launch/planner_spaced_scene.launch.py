@@ -289,23 +289,27 @@ def generate_launch_description():
             condition=IfCondition(use_models),
         ))
 
-    # ═══════════════════════════════════════════════════
-    # Floating debris — recover old-scene visual density
-    launch_entities.append(Node(
-        package='multi_usv_planner', executable='floating_debris_node.py',
-        name='floating_debris_node', output='screen',
-        parameters=[{
-            'num_debris': 8,
-            'update_rate': 10.0,
-            'seed': seed_value,
-            'frame_id': 'odom',
-            'marker_topic': '/spaced_scene/debris_models',
-            'mesh_resource': 'file://' + os.path.join(model_share, 'models', 'meshes', 'ultimate_realistic_wooden_crates_pack.glb'),
-            'mesh_scale_x': 0.82,
-            'mesh_scale_y': 0.52,
-            'mesh_scale_z': 0.22,
-        }],
-    ))
+    # The old scene used floating boxes as visual filler.  They were not
+    # subscribed by the planner, so showing them suggested obstacles that the
+    # algorithm could not actually see.  The showcase now uses real moving
+    # vessel models as its social-navigation counterpart.  Set
+    # MULTI_USV_SHOW_DEBRIS=1 only for a visual clutter stress test.
+    if os.environ.get('MULTI_USV_SHOW_DEBRIS', '0') == '1':
+        launch_entities.append(Node(
+            package='multi_usv_planner', executable='floating_debris_node.py',
+            name='floating_debris_node', output='screen',
+            parameters=[{
+                'num_debris': 8,
+                'update_rate': 10.0,
+                'seed': seed_value,
+                'frame_id': 'odom',
+                'marker_topic': '/spaced_scene/debris_models',
+                'mesh_resource': 'file://' + os.path.join(model_share, 'models', 'meshes', 'ultimate_realistic_wooden_crates_pack.glb'),
+                'mesh_scale_x': 0.82,
+                'mesh_scale_y': 0.52,
+                'mesh_scale_z': 0.22,
+            }],
+        ))
 
     # Scene markers (Python node, parameterized for this scene)
     launch_entities.append(Node(

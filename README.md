@@ -138,7 +138,7 @@ MULTI_USV_AGENTS=3 ros2 launch multi_usv_planner planner_spaced_scene.launch.py 
   use_rviz:=true use_guidance:=true use_models:=true
 ```
 
-默认展示场景使用 3 艘 Heron USV 和 4 艘横向穿越的动态船只；如需压力测试，可设置 `MULTI_USV_DYNAMIC_COUNT=6`。动态障碍物的预测安全圈使用稳定的 RViz marker ID，并保留短暂的消息延迟，不会因单帧通信抖动而闪烁消失。
+默认展示场景使用 3 艘 Heron USV 和 4 艘横向穿越的动态船只。这里用其他船只对应 de Groot 场景中的“社会个体”；漂浮箱子默认关闭，因为它们原先只是视觉装饰、没有接入规划器。需要视觉压力测试时可设置 `MULTI_USV_SHOW_DEBRIS=1`；需要动态船只压力测试时可设置 `MULTI_USV_DYNAMIC_COUNT=6`。动态障碍物的预测安全圈使用稳定的 RViz marker ID，并保留短暂的消息延迟，不会因单帧通信抖动而闪烁消失。
 
 ### Run Batch Experiments
 
