@@ -1,0 +1,364 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded:
+        - /Grid1/Offset1
+      Splitter Ratio: 0.78
+    Tree Height: 760
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Expanded:
+      - /2D Goal Pose1
+      - /Publish Point1
+    Name: Tool Properties
+    Splitter Ratio: 0.58
+  - Class: rviz_common/Views
+    Expanded:
+      - /Current View1
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz_common/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: ""
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.5
+      Cell Size: 5
+      Class: rviz_default_plugins/Grid
+      Color: 0; 0; 0
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 40
+        Y: 5
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 40
+      Reference Frame: <Fixed Frame>
+      Value: true
+
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Scene_Islands_Goals_Centerline
+      Namespaces:
+        small_islands: true
+        starts: true
+        goals: true
+        centerline: true
+      Topic:
+        Depth: 5
+        Durability Policy: Transient Local
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /scene_markers
+      Value: true
+
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /usv_1/robot_description
+      Enabled: true
+      Name: USV_1_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/Path
+      Color: 255; 0; 0
+      Enabled: true
+      Line Style: Lines
+      Line Width: 0.18
+      Name: USV_1_Smooth
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /usv_1/smooth_trajectory
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_2/robot_description
+      Enabled: true
+      Name: USV_2_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/Path
+      Color: 0; 180; 0
+      Enabled: true
+      Line Style: Lines
+      Line Width: 0.18
+      Name: USV_2_Smooth
+      Topic:
+        Value: /usv_2/smooth_trajectory
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_3/robot_description
+      Enabled: true
+      Name: USV_3_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/Path
+      Color: 0; 0; 255
+      Enabled: true
+      Line Style: Lines
+      Line Width: 0.18
+      Name: USV_3_Smooth
+      Topic:
+        Value: /usv_3/smooth_trajectory
+      Value: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_4/robot_description
+      Enabled: true
+      Name: USV_4_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/Path
+      Color: 255; 200; 0
+      Enabled: true
+      Line Style: Lines
+      Line Width: 0.18
+      Name: USV_4_Smooth
+      Topic:
+        Value: /usv_4/smooth_trajectory
+      Value: true
+
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_1_Topology_Candidates
+      Topic:
+        Value: /usv_1/topology_candidates
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_2_Topology_Candidates
+      Topic:
+        Value: /usv_2/topology_candidates
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_3_Topology_Candidates
+      Topic:
+        Value: /usv_3/topology_candidates
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_4_Topology_Candidates
+      Topic:
+        Value: /usv_4/topology_candidates
+      Value: true
+
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_1_Markers
+      Namespaces:
+        trajectory: true
+      Topic:
+        Value: /usv_1/trajectory_markers
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_2_Markers
+      Namespaces:
+        trajectory: true
+      Topic:
+        Value: /usv_2/trajectory_markers
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_3_Markers
+      Namespaces:
+        trajectory: true
+      Topic:
+        Value: /usv_3/trajectory_markers
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_4_Markers
+      Namespaces:
+        trajectory: true
+      Topic:
+        Value: /usv_4/trajectory_markers
+      Value: true
+
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: false
+      Name: USV_1_PRM_Samples
+      Namespaces:
+        "": true
+      Topic:
+        Value: /usv_1/guidance_planner/samples
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_1_PRM_Obstacles
+      Namespaces:
+        "": true
+      Topic:
+        Value: /usv_1/guidance_planner/obstacles_3d
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_1_PRM_StartGoals
+      Namespaces:
+        "": true
+      Topic:
+        Value: /usv_1/guidance_planner/start_and_goals
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: false
+      Name: USV_1_PRM_Graph
+      Namespaces:
+        "": true
+      Topic:
+        Value: /usv_1/guidance_planner/graph
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_1_PRM_Trajectories
+      Namespaces:
+        "": true
+      Topic:
+        Value: /usv_1/guidance_planner/trajectories
+      Value: true
+
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_2_PRM_Trajectories
+      Topic:
+        Value: /usv_2/guidance_planner/trajectories
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_3_PRM_Trajectories
+      Topic:
+        Value: /usv_3/guidance_planner/trajectories
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV_4_PRM_Trajectories
+      Topic:
+        Value: /usv_4/guidance_planner/trajectories
+      Value: true
+
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /vessel_e1/robot_description
+      Enabled: true
+      Name: vessel_e1_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /vessel_e2/robot_description
+      Enabled: true
+      Name: vessel_e2_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /vessel_e3/robot_description
+      Enabled: true
+      Name: vessel_e3_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /vessel_f1/robot_description
+      Enabled: true
+      Name: vessel_f1_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /vessel_f2/robot_description
+      Enabled: true
+      Name: vessel_f2_Model
+      Visual Enabled: true
+    - Class: rviz_default_plugins/RobotModel
+      Description Source: Topic
+      Description Topic:
+        Value: /vessel_f3/robot_description
+      Enabled: true
+      Name: vessel_f3_Model
+      Visual Enabled: true
+
+    - Class: rviz_default_plugins/TF
+      Enabled: false
+      Name: TF
+      Marker Scale: 2
+      Show Names: false
+      Value: false
+
+  Enabled: true
+  Global Options:
+    Background Color: 255; 255; 255
+    Fixed Frame: odom
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+      Line color: 128; 128; 0
+    - Class: rviz_default_plugins/SetInitialPose
+      Topic:
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose
+    - Class: rviz_default_plugins/PublishPoint
+      Single click: true
+      Topic:
+        Value: /clicked_point
+  Transformation:
+    Current:
+      Class: rviz_default_plugins/TF
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 135
+      Focal Point:
+        X: 42
+        Y: 2
+        Z: 2
+      Name: Current View
+      Pitch: 0.72
+      Target Frame: <Fixed Frame>
+      Value: Orbit (rviz)
+      Yaw: 0.52
+Window Geometry:
+  Displays:
+    collapsed: true
+  Height: 1043
+  Hide Left Dock: true
+  Hide Right Dock: true
+  Selection:
+    collapsed: false
+  Time:
+    collapsed: false
+  Tool Properties:
+    collapsed: false
+  Views:
+    collapsed: true
+  Width: 1920
+  X: 0
+  Y: 0

@@ -1,0 +1,262 @@
+Panels:
+  - Class: rviz_common/Displays
+    Help Height: 78
+    Name: Displays
+    Property Tree Widget:
+      Expanded: ~
+      Splitter Ratio: 0.5
+    Tree Height: 725
+  - Class: rviz_common/Selection
+    Name: Selection
+  - Class: rviz_common/Tool Properties
+    Expanded: ~
+    Name: Tool Properties
+    Splitter Ratio: 0.5886790156364441
+  - Class: rviz_common/Views
+    Expanded: ~
+    Name: Views
+    Splitter Ratio: 0.5
+  - Class: rviz_common/Time
+    Experimental: false
+    Name: Time
+    SyncMode: 0
+    SyncSource: ""
+Visualization Manager:
+  Class: ""
+  Displays:
+    - Alpha: 0.16
+      Cell Size: 2
+      Class: rviz_default_plugins/Grid
+      Color: 200; 200; 200
+      Enabled: true
+      Line Style:
+        Line Width: 0.03
+        Value: Lines
+      Name: Grid
+      Normal Cell Count: 0
+      Offset:
+        X: 40
+        Y: 5
+        Z: 0
+      Plane: XY
+      Plane Cell Count: 35
+      Reference Frame: odom
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Scene Markers
+      Namespaces:
+        "": true
+        static_obstacles_mesh: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /spaced_scene/scene_markers
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Floating Debris
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /spaced_scene/debris_models
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Dynamic Vessels
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /spaced_scene/dynamic_vessels
+      Value: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_1/robot_description
+      Enabled: true
+      Name: Heron USV 1
+      Visual Enabled: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_2/robot_description
+      Enabled: true
+      Name: Heron USV 2
+      Visual Enabled: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_3/robot_description
+      Enabled: true
+      Name: Heron USV 3
+      Visual Enabled: true
+    - Alpha: 1
+      Class: rviz_default_plugins/RobotModel
+      Collision Enabled: false
+      Description Source: Topic
+      Description Topic:
+        Value: /usv_4/robot_description
+      Enabled: true
+      Name: Heron USV 4
+      Visual Enabled: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV1 Guidance Trajectories
+      Topic:
+        Value: /usv_1/guidance_planner/trajectories
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV1 Planned Trajectory
+      Topic:
+        Value: /usv_1/planned_trajectory
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV2 Guidance Trajectories
+      Topic:
+        Value: /usv_2/guidance_planner/trajectories
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV2 Planned Trajectory
+      Topic:
+        Value: /usv_2/planned_trajectory
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV3 Guidance Trajectories
+      Topic:
+        Value: /usv_3/guidance_planner/trajectories
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV3 Planned Trajectory
+      Topic:
+        Value: /usv_3/planned_trajectory
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV4 Guidance Trajectories
+      Topic:
+        Value: /usv_4/guidance_planner/trajectories
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV4 Planned Trajectory
+      Topic:
+        Value: /usv_4/planned_trajectory
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV1 Contouring Path
+      Topic:
+        Value: /usv_1/contouring/path
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV2 Contouring Path
+      Topic:
+        Value: /usv_2/contouring/path
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV3 Contouring Path
+      Topic:
+        Value: /usv_3/contouring/path
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV4 Contouring Path
+      Topic:
+        Value: /usv_4/contouring/path
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV1 3D Obstacles
+      Topic:
+        Value: /usv_1/obstacles_3d
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV2 3D Obstacles
+      Topic:
+        Value: /usv_2/obstacles_3d
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV3 3D Obstacles
+      Topic:
+        Value: /usv_3/obstacles_3d
+      Value: true
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: USV4 3D Obstacles
+      Topic:
+        Value: /usv_4/obstacles_3d
+      Value: true
+    - Class: rviz_default_plugins/TF
+      Enabled: false
+      Frame Timeout: 15
+      Frames:
+        All Enabled: true
+      Marker Scale: 0.5
+      Name: TF
+      Show Arrows: true
+      Show Axes: true
+      Show Names: true
+      Tree:
+        Enabled: false
+      Update Interval: 0
+      Value: false
+  Enabled: true
+  Global Options:
+    Background Color: 235; 238; 242
+    Fixed Frame: odom
+    Frame Rate: 30
+  Name: root
+  Tools:
+    - Class: rviz_default_plugins/Interact
+      Hide Inactive Objects: true
+    - Class: rviz_default_plugins/MoveCamera
+    - Class: rviz_default_plugins/Select
+    - Class: rviz_default_plugins/FocusCamera
+    - Class: rviz_default_plugins/Measure
+    - Class: rviz_default_plugins/SetInitialPose
+      Topic:
+        Value: /initialpose
+    - Class: rviz_default_plugins/SetGoal
+      Topic:
+        Value: /goal_pose
+  Value: true
+  Views:
+    Current:
+      Class: rviz_default_plugins/Orbit
+      Distance: 48
+      Enable Stereo Rendering: false
+      Focal Point:
+        X: 28
+        Y: 0
+        Z: 0
+      Focal Shape Fixed Size: true
+      Focal Shape Size: 0.5
+      Invert Z Axis: false
+      Name: Current View
+      Near Clip Distance: 0.01
+      Pitch: 0.92
+      Target Frame: odom
+      Value: Orbit (rviz_default_plugins)
+      Yaw: 1.15
+    Saved: ~

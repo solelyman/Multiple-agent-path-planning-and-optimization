@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find model)/sensor/imu_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/magnetometer_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/pressure_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/camera_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/dvl_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/rpt_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/sonar_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/stereo_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/gps_sensor_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/pose_3d_snippets.xacro" />
+  <xacro:include filename="$(find model)/sensor/chemical_concentration_snippets.xacro"/>
+</robot>

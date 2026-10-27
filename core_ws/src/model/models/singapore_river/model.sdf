@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<sdf version="1.11">
+  <model name="sg_river">
+    <static>true</static>
+    <link name="link">
+      <visual name="sg_river">
+        <pose degrees="true">0 0 33 90 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>meshes/sgriver_cropped_without_platform.glb</uri>
+          </mesh>
+        </geometry>
+        <visibility_range>1000</visibility_range>
+      </visual>
+    </link>
+  </model>
+</sdf>

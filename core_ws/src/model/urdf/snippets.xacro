@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <!-- 1. Battery Macro -->
+  <xacro:macro name="basic_linear_battery_macro" 
+    params="namespace parent_link prefix:='' 
+            open_circuit_voltage_constant_coef:='' 
+            open_circuit_voltage_linear_coef:='' 
+            initial_charge:='' 
+            capacity:='' 
+            internal_resistance:='' 
+            resistance:='' 
+            consumer_link:='' 
+            update_rate:=''
+            voltage:='' 
+            radius:='' 
+            length:='' 
+            block_name:=''">
+  </xacro:macro>
+  <!-- 2. Thruster Macro -->
+  <xacro:macro name="thruster_module_first_order_basic_fcn_macro" 
+    params="namespace thruster_id mesh_filename *origin 
+            dyn_time_constant:='' 
+            rotor_constant:='' 
+            thrust_efficiency:='' 
+            propeller_efficiency:='' 
+            max_thrust:=''">
+            
+    <link name="${namespace}/thruster_${thruster_id}">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+          <mesh filename="${mesh_filename}" scale="1 1 1"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.00001" ixy="0.0" ixz="0.0" iyy="0.00001" iyz="0.0" izz="0.00001" />
+      </inertial>
+    </link>
+
+    <joint name="${namespace}/thruster_${thruster_id}_joint" type="continuous">
+      <parent link="${namespace}/base_link" />
+      <child link="${namespace}/thruster_${thruster_id}" />
+      <xacro:insert_block name="origin" />
+      <axis xyz="1 0 0" />
+    </joint>
+  </xacro:macro>
+  <!-- 3. Fin Macro -->
+  <xacro:macro name="fin_macro" 
+    params="namespace fin_id *origin 
+            mesh_filename:='' 
+            fin_dynamics_time_constant:='' 
+            fin_cross_section_area:='' 
+            current_velocity_topic:='' 
+            fluid_density:='' 
+            a0:='' 
+            alpha_stall:='' 
+            cla:='' 
+            cla_stall:='' 
+            cda:='' 
+            cda_stall:='' 
+            min_joint_limit:='' 
+            max_joint_limit:=''">
+
+    <link name="${namespace}/fin${fin_id}_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <geometry>
+           <mesh filename="${mesh_filename}" scale="1 1 1"/>
+        </geometry>
+      </visual>
+      <inertial>
+        <mass value="0.1" />
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0" iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+    <joint name="${namespace}/fin${fin_id}_joint" type="revolute">
+      <parent link="${namespace}/base_link" />
+      <child link="${namespace}/fin${fin_id}_link" />
+      <xacro:insert_block name="origin" />
+      <axis xyz="0 0 1" />
+      <limit lower="-1.57" upper="1.57" effort="0" velocity="0" />
+    </joint>
+  </xacro:macro>
+  <!-- 4. Sensor Macros -->
+  <!-- GPS -->
+  <xacro:macro name="default_gps" params="namespace parent_link suffix:=''"> </xacro:macro>
+  <!-- Magnetometer -->
+  <xacro:macro name="default_magnetometer" params="namespace parent_link suffix:=''"> </xacro:macro>
+  <!-- Pose 3D -->
+  <xacro:macro name="default_pose_3d_macro" params="namespace parent_link inertial_reference_frame suffix:=''"> </xacro:macro>
+  <!-- DVL -->
+  <xacro:macro name="default_dvl_macro" params="namespace parent_link inertial_reference_frame scale:='' *origin"> 
+    <link name="${namespace}/dvl_link" />
+    <joint name="${namespace}/dvl_joint" type="fixed">
+      <parent link="${parent_link}" />
+      <child link="${namespace}/dvl_link" />
+      <xacro:insert_block name="origin" />
+    </joint>
+  </xacro:macro>
+  <!-- Pressure -->
+  <xacro:macro name="default_pressure_macro" params="namespace parent_link suffix:='' *origin"> </xacro:macro>
+  <!-- IMU -->
+  <xacro:macro name="default_imu_macro" params="namespace parent_link inertial_reference_frame suffix:='' *origin"> </xacro:macro>
+  <!-- RPT -->
+  <xacro:macro name="default_rpt" params="namespace parent_link suffix:='' *origin"> </xacro:macro>
+  <!-- Camera -->
+  <xacro:macro name="default_camera" params="namespace parent_link suffix:='' *origin"> </xacro:macro>
+  <!-- Empty Macro for calculations -->
+  <xacro:macro name="fin_two_lines_macro" params="*args"> </xacro:macro>
+  
+</robot>

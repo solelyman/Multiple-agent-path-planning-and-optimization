@@ -1,0 +1,32 @@
+# ROS 2 to Gazebo Bridge Configuration
+# Maps Gazebo topics to ROS 2 topics for ECA A9
+
+- ros_topic_name: /model/eca_a9/joint/thruster_joint/cmd_thrust
+  gz_topic_name: /model/eca_a9/joint/thruster_joint/cmd_thrust
+  ros_type_name: std_msgs/msg/Float64
+  gz_type_name: gz.msgs.Double
+
+- ros_topic_name: /model/eca_a9/joint/fin0_joint/cmd_pos
+  gz_topic_name: /model/eca_a9/joint/fin0_joint/cmd_pos
+  ros_type_name: std_msgs/msg/Float64
+  gz_type_name: gz.msgs.Double
+
+- ros_topic_name: /model/eca_a9/joint/fin1_joint/cmd_pos
+  gz_topic_name: /model/eca_a9/joint/fin1_joint/cmd_pos
+  ros_type_name: std_msgs/msg/Float64
+  gz_type_name: gz.msgs.Double
+
+- ros_topic_name: /model/eca_a9/joint/fin2_joint/cmd_pos
+  gz_topic_name: /model/eca_a9/joint/fin2_joint/cmd_pos
+  ros_type_name: std_msgs/msg/Float64
+  gz_type_name: gz.msgs.Double
+
+- ros_topic_name: /model/eca_a9/joint/fin3_joint/cmd_pos
+  gz_topic_name: /model/eca_a9/joint/fin3_joint/cmd_pos
+  ros_type_name: std_msgs/msg/Float64
+  gz_type_name: gz.msgs.Double
+
+- ros_topic_name: /model/eca_a9/odometry
+  gz_topic_name: /model/eca_a9/odometry
+  ros_type_name: nav_msgs/msg/Odometry
+  gz_type_name: gz.msgs.Odometry
