@@ -127,7 +127,9 @@ def generate_launch_description():
         DeclareLaunchArgument('use_rviz', default_value='true'),
         DeclareLaunchArgument('use_models', default_value='true'),
         DeclareLaunchArgument('use_guidance', default_value='true'),
-        DeclareLaunchArgument('enable_topology_rerank', default_value='true'),
+        # Direct topology handoff is the stable showcase mode.  The extra
+        # two-candidate reranker remains opt-in for solver stress tests.
+        DeclareLaunchArgument('enable_topology_rerank', default_value='false'),
         DeclareLaunchArgument('debris_mesh', default_value='file://' + os.path.join(model_share, 'models', 'meshes', 'ultimate_realistic_wooden_crates_pack.glb')),
     ]
 
@@ -201,7 +203,11 @@ def generate_launch_description():
             parameters=[planner_config, {
                 'agent_id': uid,
                 'use_selected_reference': True,
-                'use_original_like_reference_mode': True,
+                # Keep the topology output in the control loop.  The old
+                # showcase setting bypassed topoPathCallback entirely, so a
+                # left/right topology decision was visible in RViz but never
+                # reached the MPC reference.
+                'use_original_like_reference_mode': False,
                 'enable_topology_rerank': enable_topology_rerank,
                 'neighbors': [i for i in active_ids if i != uid],
                 'goal.x': usv['goal'][0],

@@ -558,7 +558,7 @@ void USVPlanner::pathCallback(const nav_msgs::msg::Path::SharedPtr msg)
             return;
         }
 
-        const bool freeze_switching = freezeReferenceSwitching();
+        const bool freeze_switching = freezeReferenceSwitching() && !stuck_recovery_active_;
         if (freeze_switching && smooth_ref_path_.points.size() >= 2)
         {
             RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1500,
@@ -748,12 +748,13 @@ void USVPlanner::topoPathCallback(const topology_interfaces::msg::TopologicalPat
 
     ReferencePath new_topo_path = topo_candidates_.front().path;
 
-    if (freezeReferenceSwitching() && topo_ref_path_.points.size() >= 2)
-    {
-        RCLCPP_INFO_THROTTLE(this->get_logger(), *this->get_clock(), 1500,
-            "USV-%d topo reference update frozen by nearby dynamics", agent_id_);
-        return;
-    }
+    // When the current basin is demonstrably stuck, accepting a new topology
+    // is more important than preserving continuity for one cycle.  Otherwise
+    // the old path remains frozen exactly when the obstacle blocks it.
+    // Always refresh the stored topological basin.  Freezing this callback
+    // near an obstacle made the planner keep an obsolete basin precisely when
+    // a left/right change was needed; continuity is handled by the local
+    // handoff check below.
 
     bool topo_basin_changed = false;
     if (topo_ref_path_.points.size() >= 2 && new_topo_path.points.size() >= 2)
@@ -786,6 +787,17 @@ void USVPlanner::topoPathCallback(const topology_interfaces::msg::TopologicalPat
     }
 
     topo_ref_path_ = std::move(new_topo_path);
+
+    // In the non-reranked mode the topology planner is itself the route
+    // selector.  Previously we only stored this path and rebuildActiveReference
+    // could continue using the old smooth reference indefinitely.
+    if (!enable_topology_rerank_ && topo_ref_path_.points.size() >= 2)
+    {
+        smooth_ref_path_ = topo_ref_path_;
+        has_reference_path_ = true;
+        selected_reference_active_ = true;
+        ref_path_ = buildLocalReferenceWindow(smooth_ref_path_);
+    }
 
     if (topo_basin_changed && !selected_reference_active_)
     {
@@ -1017,7 +1029,7 @@ void USVPlanner::rebuildActiveReference()
 
     const bool has_selected = has_reference_path_ && smooth_ref_path_.points.size() >= 2;
     const bool has_topo = topo_ref_path_.points.size() >= 2;
-    const bool freeze_switching = freezeReferenceSwitching();
+    const bool freeze_switching = freezeReferenceSwitching() && !stuck_recovery_active_;
     const ReferencePath *base_path = nullptr;
     bool engage_selected = false;
 
@@ -1745,6 +1757,17 @@ void USVPlanner::controlLoop()
         mpc_traj = runMPC();
         if (mpc_traj.size() == 0)
         {
+            // A failed SQP_RTI step used to publish nothing, leaving the
+            // simulator with its previous forward command.  If a vessel is
+            // close, arm the short escape layer and publish an explicit
+            // command so the next solve starts from a different basin.
+            if (currentNearestDynamicDistance() < 6.0)
+            {
+                stuck_recovery_active_ = true;
+                stuck_recovery_until_ = this->now() + rclcpp::Duration::from_seconds(2.0);
+            }
+            Trajectory empty;
+            publishCommand(empty);
             optimizing_ = false;
             return;
         }
@@ -2424,7 +2447,10 @@ void USVPlanner::publishVisualization(const Trajectory &traj)
         visualization_msgs::msg::MarkerArray dyn_markers;
 
         const double now_sec = rclcpp::Time(this->now()).seconds();
-        const float alphas[5] = {0.40f, 0.32f, 0.24f, 0.16f, 0.08f};
+        // Keep the visual language close to de Groot: one vessel body and a
+        // restrained forecast halo, rather than five opaque nested discs per
+        // obstacle that dominate the scene.
+        const float alphas[2] = {0.18f, 0.07f};
         for (const auto &pair : dynamic_obstacles_)
         {
             const auto &obs = pair.second;
@@ -2463,9 +2489,9 @@ void USVPlanner::publishVisualization(const Trajectory &traj)
             body.scale.y = 2.0 * obs.radius;
             body.scale.z = 0.08;
 
-            for (int k = 0; k < 5; ++k)
+            for (int k = 0; k < 2; ++k)
             {
-                const double t = 0.45 * static_cast<double>(k);
+                const double t = 0.65 * static_cast<double>(k);
                 visualization_msgs::msg::Marker disc = body;
                 const std::size_t name_hash = std::hash<std::string>{}(pair.first) % 1000;
                 disc.id = static_cast<int>(name_hash * 10 + k);
