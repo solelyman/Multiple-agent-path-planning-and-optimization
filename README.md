@@ -138,6 +138,8 @@ MULTI_USV_AGENTS=3 ros2 launch multi_usv_planner planner_spaced_scene.launch.py 
   use_rviz:=true use_guidance:=true use_models:=true
 ```
 
+默认展示场景使用 3 艘 Heron USV 和 4 艘横向穿越的动态船只；如需压力测试，可设置 `MULTI_USV_DYNAMIC_COUNT=6`。动态障碍物的预测安全圈使用稳定的 RViz marker ID，并保留短暂的消息延迟，不会因单帧通信抖动而闪烁消失。
+
 ### Run Batch Experiments
 
 ```bash
