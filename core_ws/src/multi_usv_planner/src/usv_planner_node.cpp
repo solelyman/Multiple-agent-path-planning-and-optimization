@@ -1135,8 +1135,8 @@ void USVPlanner::controlLoop()
     if (!done_ && dist_to_goal > 6.0 && stagnation_s > 6.0)
     {
         stuck_recovery_active_ = true;
-        stuck_recovery_until_ = this->now() + rclcpp::Duration::from_seconds(4.0);
-        topology_hold_until_ = this->now() + rclcpp::Duration::from_seconds(4.0);
+        stuck_recovery_until_ = this->now() + rclcpp::Duration::from_seconds(2.0);
+        topology_hold_until_ = this->now() + rclcpp::Duration::from_seconds(2.0);
         last_progress_time_ = this->now();
         RCLCPP_WARN(this->get_logger(),
             "STUCK_RECOVERY usv=%d dist=%.2f stagnation=%.1fs cand=%d",
@@ -2128,10 +2128,43 @@ void USVPlanner::publishCommand(const Trajectory &traj)
         }
     }
 
+    // A failed solve must not leave the vehicle pointing at the obstacle.
+    // Previously recovery only raised the forward speed, so the stop envelope
+    // and the LOS controller could keep producing a straight-line deadlock.
+    // During recovery choose the free side of the closest dynamic obstacle and
+    // apply a bounded lateral turn.  This is deliberately a short reactive
+    // escape layer; MPC takes control again as soon as clearance improves.
     if (stuck_recovery_active_)
     {
-        cmd.linear.x = std::max(cmd.linear.x, 0.28);
-        cmd.angular.z = std::clamp(cmd.angular.z, -0.45, 0.45);
+        double closest = std::numeric_limits<double>::infinity();
+        double turn_sign = 1.0;
+        for (const auto &pair : dynamic_obstacles_)
+        {
+            const auto &obs = pair.second;
+            if (!obs.received)
+                continue;
+            const double dx = obs.x - ego_.x;
+            const double dy = obs.y - ego_.y;
+            const double distance = std::hypot(dx, dy) - obs.radius;
+            if (distance < closest)
+            {
+                closest = distance;
+                const double cross = std::cos(ego_.psi) * dy -
+                                     std::sin(ego_.psi) * dx;
+                // Obstacle on the left -> turn right, and vice versa.
+                turn_sign = (cross >= 0.0) ? -1.0 : 1.0;
+            }
+        }
+
+        // Stagnation can also be caused by a transient solver/reference
+        // issue.  Do not inject a large turn when no dynamic obstacle is
+        // actually nearby; that was the source of the wide runaway arcs.
+        if (std::isfinite(closest) && closest < 5.0)
+        {
+            const double escape_speed = (closest < 2.5) ? 0.10 : 0.18;
+            cmd.linear.x = std::max(cmd.linear.x, escape_speed);
+            cmd.angular.z = turn_sign * 0.35;
+        }
     }
 
     pub_cmd_vel_->publish(cmd);
@@ -2390,13 +2423,6 @@ void USVPlanner::publishVisualization(const Trajectory &traj)
     {
         visualization_msgs::msg::MarkerArray dyn_markers;
 
-        visualization_msgs::msg::Marker clear_all;
-        clear_all.header.stamp = stamp;
-        clear_all.header.frame_id = "odom";
-        clear_all.action = visualization_msgs::msg::Marker::DELETEALL;
-        dyn_markers.markers.push_back(clear_all);
-
-        int marker_id = 0;
         const double now_sec = rclcpp::Time(this->now()).seconds();
         const float alphas[5] = {0.40f, 0.32f, 0.24f, 0.16f, 0.08f};
         for (const auto &pair : dynamic_obstacles_)
@@ -2404,7 +2430,10 @@ void USVPlanner::publishVisualization(const Trajectory &traj)
             const auto &obs = pair.second;
             if (!obs.received)
                 continue;
-            if (now_sec - obs.last_update_sec > 1.5)
+            // Keep the last received pose visible for a short grace period.
+            // Deleting all rings whenever one message is late made the
+            // dynamic scene flicker and looked like obstacles were spawning.
+            if (now_sec - obs.last_update_sec > 5.0)
                 continue;
 
             auto obstacle_color = [&](const std::string &name, float alpha) {
@@ -2438,7 +2467,8 @@ void USVPlanner::publishVisualization(const Trajectory &traj)
             {
                 const double t = 0.45 * static_cast<double>(k);
                 visualization_msgs::msg::Marker disc = body;
-                disc.id = marker_id++;
+                const std::size_t name_hash = std::hash<std::string>{}(pair.first) % 1000;
+                disc.id = static_cast<int>(name_hash * 10 + k);
                 disc.pose.position.x = obs.x + obs.vx * t;
                 disc.pose.position.y = obs.y + obs.vy * t;
                 disc.pose.position.z = 0.03 + 0.006 * k;

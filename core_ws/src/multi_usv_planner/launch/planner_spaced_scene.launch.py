@@ -64,7 +64,7 @@ def generate_launch_description():
     usv_configs = all_usv_configs[:num_agents]
     active_ids = [c['id'] for c in usv_configs]
 
-    # ── Old-repo-style 4 dynamic vessels, concentrated near entrance ──
+    # ── Old-repo-style moving vessels, concentrated near entrance ──
     obstacle_vessels = [
         {'name': 'vessel_e1', 'type': 'e', 'radius': 2.2,
          'init_pose': _jitter_pose(rng, [8.0, -12.0, 0.2, 1.5708], 0.20),
@@ -91,13 +91,18 @@ def generate_launch_description():
          'velocity': _jitter_velocity(rng, [0.0, -0.38], 0.02),
          'target': [56.0, -12.0, 0.0]},
     ]
+    # Keep the showcase readable and avoid an artificial wall of moving
+    # obstacles.  The denser six-vessel variant remains available for stress
+    # tests with MULTI_USV_DYNAMIC_COUNT=6.
+    dynamic_count = int(os.environ.get('MULTI_USV_DYNAMIC_COUNT', '4'))
+    obstacle_vessels = obstacle_vessels[:max(1, min(dynamic_count, len(obstacle_vessels)))]
 
     # ── Old-repo static obstacles, but stretched in x to open the passage ──
     static_obs_x = [14.0, 34.0, 22.0, 42.0]
     static_obs_y = [-11.5, -2.5, 4.5, 12.0]
     static_obs_r = [0.75, 0.85, 0.68, 0.75]
 
-    max_obs = 10  # 6 vessels + up to 3 neighbors + margin
+    max_obs = len(obstacle_vessels) + len(active_ids) + 2
 
     launch_entities = [
         SetEnvironmentVariable('ACADOS_SOURCE_DIR', acados_source),

@@ -244,10 +244,10 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz_default_plugins/Orbit
-      Distance: 48
+      Distance: 105
       Enable Stereo Rendering: false
       Focal Point:
-        X: 28
+        X: 35
         Y: 0
         Z: 0
       Focal Shape Fixed Size: true
@@ -255,7 +255,7 @@ Visualization Manager:
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.92
+      Pitch: 1.02
       Target Frame: odom
       Value: Orbit (rviz_default_plugins)
       Yaw: 1.15
