@@ -2,7 +2,7 @@
 Spaced-scene launch — old-repo scenario stretched longitudinally.
 
 Layout (old-repo style, goal pulled far right):
-  - 4 Heron USVs start at x≈-38..-14, goals at x=110
+  - 4 Heron USVs start at x≈-24..-8, goals at x=58
   - 4 dynamic vessels (e1,e2,f1,f2) concentrated near the entrance (x≈-2..10)
   - 4 static obstacles at old-repo positions
   - Deep stretch: obstacle zone remains near entry, goal at x=110
@@ -52,14 +52,14 @@ def generate_launch_description():
 
     # ── Old-repo-style USV configs, stretched ─────────────────────
     all_usv_configs = [
-        {'id': 1, 'init_pose': [-30.0, -10.5, 0.0], 'target_offset': [-8.0, 8.0, 0.0],
-         'color': [1.0, 0.3, 0.3], 'goal': [110.0, 2.0]},
-        {'id': 3, 'init_pose': [-38.0, -10.5, 0.0], 'target_offset': [12.0, 8.0, 0.0],
-         'color': [0.3, 0.3, 1.0], 'goal': [110.0, 6.0]},
-        {'id': 2, 'init_pose': [-22.0, -10.5, 0.0], 'target_offset': [3.0, 8.0, 0.0],
-         'color': [0.3, 1.0, 0.3], 'goal': [110.0, 14.0]},
-        {'id': 4, 'init_pose': [-14.0, -10.5, 0.0], 'target_offset': [18.0, 8.0, 0.0],
-         'color': [1.0, 0.7, 0.2], 'goal': [110.0, 22.0]},
+         {'id': 1, 'init_pose': [-18.0, -8.0, 0.0], 'target_offset': [-5.0, 5.0, 0.0],
+         'color': [1.0, 0.3, 0.3], 'goal': [58.0, 1.0]},
+        {'id': 3, 'init_pose': [-24.0, -8.0, 0.0], 'target_offset': [8.0, 5.0, 0.0],
+         'color': [0.3, 0.3, 1.0], 'goal': [58.0, 5.0]},
+        {'id': 2, 'init_pose': [-12.0, -8.0, 0.0], 'target_offset': [2.0, 5.0, 0.0],
+         'color': [0.3, 1.0, 0.3], 'goal': [58.0, 10.0]},
+        {'id': 4, 'init_pose': [-6.0, -8.0, 0.0], 'target_offset': [12.0, 5.0, 0.0],
+         'color': [1.0, 0.7, 0.2], 'goal': [58.0, 15.0]},
     ]
     usv_configs = all_usv_configs[:num_agents]
     active_ids = [c['id'] for c in usv_configs]
@@ -67,29 +67,29 @@ def generate_launch_description():
     # ── Old-repo-style moving vessels, concentrated near entrance ──
     obstacle_vessels = [
         {'name': 'vessel_e1', 'type': 'e', 'radius': 2.2,
-         'init_pose': _jitter_pose(rng, [8.0, -12.0, 0.2, 1.5708], 0.20),
+         'init_pose': _jitter_pose(rng, [10.0, -9.0, 0.2, 1.5708], 0.20),
          'velocity': _jitter_velocity(rng, [0.0, 0.42], 0.02),
-         'target': [8.0, 10.0, 0.0]},
+         'target': [10.0, 16.0, 0.0]},
         {'name': 'vessel_e2', 'type': 'e', 'radius': 2.2,
-         'init_pose': _jitter_pose(rng, [24.0, -12.0, 0.2, 1.5708], 0.20),
+         'init_pose': _jitter_pose(rng, [24.0, -9.0, 0.2, 1.5708], 0.20),
          'velocity': _jitter_velocity(rng, [0.0, 0.42], 0.02),
-         'target': [24.0, 10.0, 0.0]},
+         'target': [24.0, 16.0, 0.0]},
         {'name': 'vessel_e3', 'type': 'e', 'radius': 2.2,
-         'init_pose': _jitter_pose(rng, [46.0, -12.0, 0.2, 1.5708], 0.20),
+         'init_pose': _jitter_pose(rng, [42.0, -9.0, 0.2, 1.5708], 0.20),
          'velocity': _jitter_velocity(rng, [0.0, 0.40], 0.02),
-         'target': [46.0, 10.0, 0.0]},
+         'target': [42.0, 16.0, 0.0]},
         {'name': 'vessel_f1', 'type': 'f', 'radius': 2.4,
-         'init_pose': _jitter_pose(rng, [16.0, 10.0, 0.2, -1.5708], 0.20),
+         'init_pose': _jitter_pose(rng, [16.0, 16.0, 0.2, -1.5708], 0.20),
          'velocity': _jitter_velocity(rng, [0.0, -0.40], 0.02),
-         'target': [16.0, -12.0, 0.0]},
+         'target': [16.0, -9.0, 0.0]},
         {'name': 'vessel_f2', 'type': 'f', 'radius': 2.4,
-         'init_pose': _jitter_pose(rng, [34.0, 10.0, 0.2, -1.5708], 0.20),
+         'init_pose': _jitter_pose(rng, [30.0, 16.0, 0.2, -1.5708], 0.20),
          'velocity': _jitter_velocity(rng, [0.0, -0.40], 0.02),
-         'target': [34.0, -12.0, 0.0]},
+         'target': [30.0, -9.0, 0.0]},
         {'name': 'vessel_f3', 'type': 'f', 'radius': 2.4,
-         'init_pose': _jitter_pose(rng, [56.0, 10.0, 0.2, -1.5708], 0.20),
+         'init_pose': _jitter_pose(rng, [46.0, 16.0, 0.2, -1.5708], 0.20),
          'velocity': _jitter_velocity(rng, [0.0, -0.38], 0.02),
-         'target': [56.0, -12.0, 0.0]},
+         'target': [46.0, -9.0, 0.0]},
     ]
     # Keep the showcase readable and avoid an artificial wall of moving
     # obstacles.  The denser six-vessel variant remains available for stress
@@ -98,9 +98,11 @@ def generate_launch_description():
     obstacle_vessels = obstacle_vessels[:max(1, min(dynamic_count, len(obstacle_vessels)))]
 
     # ── Old-repo static obstacles, but stretched in x to open the passage ──
-    static_obs_x = [14.0, 34.0, 22.0, 42.0]
-    static_obs_y = [-11.5, -2.5, 4.5, 12.0]
-    static_obs_r = [0.75, 0.85, 0.68, 0.75]
+    static_obs_x = [9.0, 21.0, 33.0, 45.0]
+    static_obs_y = [-5.0, 2.0, 8.0, 14.0]
+    # Collision radii stay compatible with the planner's tuned corridor;
+    # visualization expands the island mesh independently.
+    static_obs_r = [0.85, 1.00, 0.80, 0.90]
 
     max_obs = len(obstacle_vessels) + len(active_ids) + 2
 

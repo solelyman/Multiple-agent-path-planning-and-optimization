@@ -19,6 +19,7 @@ class SpacedSceneMarkers(Node):
         static_mesh_param = self.declare_parameter('static_mesh_resource', 'file:///home/lu/paper2/core_ws/src/model/models/meshes/ice_floes.glb')
         use_mesh_param = self.declare_parameter('use_static_mesh', False)
         static_shape_param = self.declare_parameter('static_shape', 'island')
+        visual_scale_param = self.declare_parameter('visual_scale_factor', 3.0)
 
         self.usv_configs = json.loads(usv_cfg_param.value)
         self.static_x = list(static_x_param.value)
@@ -27,6 +28,7 @@ class SpacedSceneMarkers(Node):
         self.static_mesh_resource = str(static_mesh_param.value)
         self.use_mesh = bool(use_mesh_param.value)
         self.static_shape = str(static_shape_param.value)
+        self.visual_scale_factor = float(visual_scale_param.value)
 
         self.pub = self.create_publisher(MarkerArray, str(marker_topic_param.value), 1)
         rate = float(publish_rate_param.value)
@@ -56,7 +58,7 @@ class SpacedSceneMarkers(Node):
             m.pose.position.z = 0.0
             m.pose.orientation.w = 1.0
             r = self.static_r[i] if i < len(self.static_r) else 1.0
-            mesh_scale = max(1.0, r * 2.2) if not self.use_mesh else max(0.45, r * 0.75)
+            mesh_scale = max(1.0, r * self.visual_scale_factor) if not self.use_mesh else max(0.45, r * 0.75)
             m.scale.x = mesh_scale
             m.scale.y = mesh_scale
             m.scale.z = mesh_scale if self.use_mesh else 1.0
