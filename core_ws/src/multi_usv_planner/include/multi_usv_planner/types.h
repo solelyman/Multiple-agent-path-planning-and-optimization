@@ -3,6 +3,7 @@
 
 #include <Eigen/Dense>
 #include <vector>
+#include <deque>
 #include <cmath>
 
 namespace MultiUSV
@@ -83,9 +84,17 @@ struct USVState
 // Neighbor trajectory
 struct NeighborTrajectory
 {
+    struct Observation
+    {
+        double x = 0.0, y = 0.0;
+        double stamp_sec = 0.0;
+    };
+
     int id = -1;
     USVState current_state;
     Trajectory predicted_traj;
+    // 短时位置历史：即使邻居只广播位置，也可估计运动方向和速度。
+    std::deque<Observation> observation_buffer;
     bool received = false;
 };
 

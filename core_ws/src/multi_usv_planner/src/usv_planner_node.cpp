@@ -1084,11 +1084,50 @@ void USVPlanner::neighborCallback(
 
     auto &nb = neighbors_[neighbor_id];
     nb.id = neighbor_id;
-    nb.current_state.x = msg->data[0];
-    nb.current_state.y = msg->data[1];
-    nb.current_state.psi = msg->data[2];
-    nb.current_state.v = msg->data[3];
+    const double x = msg->data[0];
+    const double y = msg->data[1];
+    const double reported_psi = msg->data[2];
+    const double reported_v = std::max(0.0, msg->data[3]);
+    const double stamp_sec = this->now().seconds();
+
+    // 保留约 0.8 s 的邻居观测。这样不要求对方发布完整预测轨迹，
+    // 仅凭位置序列也能得到短时速度/航向，且比单帧差分抗噪声。
+    nb.observation_buffer.push_back({x, y, stamp_sec});
+    while (nb.observation_buffer.size() > 8)
+        nb.observation_buffer.pop_front();
+
+    double estimated_v = reported_v;
+    double estimated_psi = reported_psi;
+    if (nb.observation_buffer.size() >= 2)
+    {
+        const auto &first = nb.observation_buffer.front();
+        const auto &last = nb.observation_buffer.back();
+        const double dt = last.stamp_sec - first.stamp_sec;
+        const double dx = last.x - first.x;
+        const double dy = last.y - first.y;
+        const double distance = std::hypot(dx, dy);
+        if (dt > 0.03 && dt < 2.0 && distance > 0.01)
+        {
+            const double buffer_v = distance / dt;
+            const double buffer_psi = std::atan2(dy, dx);
+            // 广播速度优先，但用历史位置抑制跳变；若消息只是位置，
+            // reported_v/psi 无效时，buffer 估计仍然可以独立工作。
+            if (std::isfinite(reported_v) && reported_v > 1e-3)
+                estimated_v = 0.55 * reported_v + 0.45 * buffer_v;
+            else
+                estimated_v = buffer_v;
+            if (!std::isfinite(reported_psi) || reported_v < 1e-3)
+                estimated_psi = buffer_psi;
+        }
+    }
+
+    nb.current_state.x = x;
+    nb.current_state.y = y;
+    nb.current_state.psi = estimated_psi;
+    nb.current_state.v = std::clamp(estimated_v, 0.0, 4.0);
     nb.current_state.received = true;
+    // 每一帧都是一条新的预测，不能继续累加旧轨迹。
+    nb.predicted_traj.clear();
     for (size_t i = 4; i + 4 < msg->data.size(); i += 5)
     {
         nb.predicted_traj.add(msg->data[i], msg->data[i + 1], msg->data[i + 2],
